@@ -8,6 +8,6 @@ npm i
 
 ```
 
-## Expanding the ESLint configuration
+## About this project
 
 * Tailwind CSS and ShadCN/UI
