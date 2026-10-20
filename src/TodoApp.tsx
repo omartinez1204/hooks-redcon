@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { customAlphabet } from 'nanoid';
+
 import type { Todo } from '@/interfaces/todo.interface';
 
-const generarId = customAlphabet('123597463', 5);
+
 
 export const TodoApp = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -15,13 +15,13 @@ export const TodoApp = () => {
 
   const addTodo = () => {
     if (inputValue.length === 0) return;
-    const newTodo: Todo = {
+    /*const newTodo: Todo = {
       id: Number(generarId()),
       text: inputValue.trim(),
       completed: false
-    }
+    }*/
 
-    setTodos([...todos, newTodo]);
+    //setTodos([...todos, newTodo]);
     setInputValue('')
   };
 
@@ -39,8 +39,7 @@ export const TodoApp = () => {
   };
 
   const deleteTodo = (id: number) => {
-    const deleteTodo = todos.filter( (item)=> item.id !== id )
-    setTodos(deleteTodo);
+    
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
