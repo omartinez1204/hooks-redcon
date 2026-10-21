@@ -9,10 +9,24 @@ interface TodoState {
     completados: number
 }
 
-type TodoAction = 
-      { type: 'ADD', payload: string }
+type TodoAction =
+    { type: 'ADD', payload: string }
     | { type: 'DELETE', payload: number }
     | { type: 'UPDATE', payload: number };
+
+export const initialState = () :TodoState => {
+
+    const todos = localStorage.getItem('lista-todos');
+    console.log(todos)
+
+    return {
+        todos: [],
+        noTodos:0,
+        actualizados: 0,
+        completados: 0
+    }
+}
+
 
 
 export const useReducerTodo = (state: TodoState, action: TodoAction): TodoState => {
@@ -33,7 +47,7 @@ export const useReducerTodo = (state: TodoState, action: TodoAction): TodoState 
             };
         }
         case 'DELETE': {
-            const deleteTodo = state.todos.filter( (item)=> item.id !== action.payload )
+            const deleteTodo = state.todos.filter((item) => item.id !== action.payload)
             return {
                 ...state,
                 todos: deleteTodo,
@@ -41,8 +55,20 @@ export const useReducerTodo = (state: TodoState, action: TodoAction): TodoState 
             };
         }
         case 'UPDATE': {
-            
-            return state;
+            const updateTodo = state.todos.map((item) => {
+                if (action.payload === item.id) {
+                    return {
+                        ...item,
+                        completed: !item.completed
+                    }
+                }
+                return item;
+            })
+            return {
+                ...state,
+                todos: updateTodo,
+                noTodos: state.todos.length
+            };
         }
         default:
             return state;

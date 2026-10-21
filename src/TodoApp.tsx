@@ -1,45 +1,34 @@
-import { useState } from 'react';
+import { useState, useReducer, useEffect } from 'react';
 import { Plus, Trash2, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-import type { Todo } from '@/interfaces/todo.interface';
-
-
+import { useReducerTodo, initialState } from '@/hooks/useReducer'
 
 export const TodoApp = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+
   const [inputValue, setInputValue] = useState('');
+  const [state, dispatch] = useReducer(useReducerTodo, initialState());
+  const todos = state.todos;
+
+  useEffect(() => {
+    localStorage.setItem('lista-todos', JSON.stringify(state.todos));
+  }, [state])
+
 
   const addTodo = () => {
     if (inputValue.length === 0) return;
-    /*const newTodo: Todo = {
-      id: Number(generarId()),
-      text: inputValue.trim(),
-      completed: false
-    }*/
-
-    //setTodos([...todos, newTodo]);
+    dispatch({ type: 'ADD', payload: inputValue });
     setInputValue('')
   };
 
   const updateTodo = (id: number) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
-      }
-      return todo;
-    })
-    setTodos(newTodos);
+    dispatch({ type: 'UPDATE', payload: id })
   };
 
   const deleteTodo = (id: number) => {
-    
+    dispatch({ type: 'DELETE', payload: id });
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
