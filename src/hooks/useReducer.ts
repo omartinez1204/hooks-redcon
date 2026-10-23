@@ -14,14 +14,12 @@ type TodoAction =
     | { type: 'DELETE', payload: number }
     | { type: 'UPDATE', payload: number };
 
-export const initialState = () :TodoState => {
-
-    const todos = localStorage.getItem('lista-todos');
-    console.log(todos)
-
+export const initialState = (): TodoState => {
+    const todo = localStorage.getItem('lista-todos');
+    const resp: Todo[] = todo ? (JSON.parse(todo) as Todo[]) : [];
     return {
-        todos: [],
-        noTodos:0,
+        todos: resp,
+        noTodos: 0,
         actualizados: 0,
         completados: 0
     }
